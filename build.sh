@@ -46,8 +46,7 @@ lb config \
 	--distribution focal \
 	--binary-images iso-hybrid \
 	--apt-indices false \
-	--bootappend-live "boot=live components" \
-	--parent-name "nova-os"
+	--bootappend-live "boot=live components"
 
 echo "Uruchamiam lb build (to może potrwać)..."
 sudo lb build
