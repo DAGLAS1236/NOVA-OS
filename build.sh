@@ -44,7 +44,6 @@ find config -type f -name "*.chroot" -exec chmod +x {} + || true
 
 # Prosty lb config; rozbuduj według potrzeb w katalogu config/
 lb config \
-	--debian-installer live \
 	--archive-areas "main restricted universe multiverse" \
 	--distribution jammy \
 	--binary-images iso-hybrid \
