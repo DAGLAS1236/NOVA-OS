@@ -1,0 +1,16 @@
+# Szkic konfiguracji Calamares
+# Więcej opcji: https://calamares.io/
+
+modules:
+  - bootloader:
+      name: grub
+  - partition:
+      default_filesystem: ext4
+  - users:
+      default_user:
+        name: user
+        fullname: "Lubuntu Clone User"
+
+branding:
+  product: "Lubuntu Clone"
+  # Zamień logo i teksty na własne zasoby (unikaj kopiowania oryginału)

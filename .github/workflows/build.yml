@@ -1,0 +1,28 @@
+name: Build ISO
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: |
+          sudo apt update
+          sudo apt install -y live-build debootstrap squashfs-tools xorriso qemu-system-x86
+      - name: Make scripts executable
+        run: |
+          chmod +x ./build.sh ./scripts/prepare_live_build.sh
+      - name: Prepare packages
+        run: ./scripts/prepare_live_build.sh
+      - name: Build ISO
+        run: ./build.sh
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nova-iso
+          path: live-build/*.iso

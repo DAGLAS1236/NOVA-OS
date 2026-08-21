@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Nova OS first-run GUI wizard (runs once per system)
+# Requires: zenity, pkexec
+
+FLAG=/var/lib/nova-first-setup.done
+if [ -f "$FLAG" ]; then
+  exit 0
+fi
+
+if ! command -v zenity >/dev/null 2>&1; then
+  exit 0
+fi
+
+# Welcome message
+zenity --info --title="Welcome to Nova OS" --text="Welcome to Nova OS! This wizard helps with first-time setup: wallpaper, updates and optional settings." || true
+
+# Set wallpaper
+if zenity --question --text="Do you want to set a wallpaper now?"; then
+  img=$(zenity --file-selection --title="Choose wallpaper (optional)" --file-filter="Image files | *.png *.jpg *.jpeg") || true
+  if [ -n "$img" ]; then
+    cp -f "$img" /usr/share/backgrounds/nova-wallpaper.jpg || true
+    # try to set for current user
+    if [ -n "${XDG_RUNTIME_DIR-}" ] && [ -n "${USER-}" ]; then
+      mkdir -p /home/$USER/.config
+      printf '[Background]\nimage=/usr/share/backgrounds/nova-wallpaper.jpg\n' > /home/$USER/.config/nova-background.conf || true
+      chown $USER:$USER /home/$USER/.config/nova-background.conf || true
+    fi
+  fi
+fi
+
+# Offer system update
+if zenity --question --text="Check for system updates now?"; then
+  if command -v pkexec >/dev/null 2>&1; then
+    pkexec bash -c 'apt update && apt upgrade -y' || zenity --warning --text="Update failed or requires manual intervention." || true
+  else
+    zenity --warning --text="No privilege helper (pkexec) found. You can update later using the Software Updater." || true
+  fi
+fi
+
+# Done
+sudo touch "$FLAG" 2>/dev/null || touch "$FLAG" || true
+exit 0

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Ensure first-run script is executable and branding files are readable
+chmod +x /usr/local/bin/nova-first-setup || true
+chmod -R a+r /usr/share/nova-branding || true

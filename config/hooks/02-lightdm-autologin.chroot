@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Ten hook pozostaje jako szablon, ale NIE ustawia autologin domyślnie.
+# Jeśli chcesz włączyć autologin, utwórz plik /etc/nova-enable-autologin w systemie chroot
+# i włącz poniższe ustawienia. Domyślnie instalator będzie wymagał logowania użytkownika.
+
+if [ -f /etc/nova-enable-autologin ]; then
+	mkdir -p /etc/lightdm/lightdm.conf.d
+	cat > /etc/lightdm/lightdm.conf.d/50-nova.conf <<'EOF'
+[Seat:*]
+autologin-user=nova
+autologin-session=lxqt
+EOF
+fi

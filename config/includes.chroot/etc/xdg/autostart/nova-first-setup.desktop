@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Nova First Setup
+Exec=/usr/local/bin/nova-first-setup
+X-GNOME-Autostart-enabled=true
+NoDisplay=false
+Comment=Run Nova OS first-run configuration wizard
+X-Nova-RunOnce=true

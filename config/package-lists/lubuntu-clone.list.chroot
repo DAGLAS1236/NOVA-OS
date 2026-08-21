@@ -1,0 +1,12 @@
+# Domyślna lista pakietów (wygenerowana przez scripts/prepare_live_build.sh)
+lxqt-core
+lxqt-panel
+pcmanfm-qt
+network-manager
+sudo
+openssh-server
+xorg
+lightdm
+firefox
+thunar
+zenity

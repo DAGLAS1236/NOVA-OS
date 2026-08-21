@@ -1,0 +1,17 @@
+# Lista przykładowych pakietów (szkic)
+# Zamiast 'lubuntu-desktop' użyjemy LXQt i wybranych aplikacji
+
+apt_packages=(
+  "lxqt-core"
+  "lxqt-panel"
+  "pcmanfm-qt"
+  "network-manager"
+  "sudo"
+  "openssh-server"
+  "xorg"
+  "lightdm"
+  "firefox"
+  "thunar"
+)
+
+# Użyj tego skryptu w hookach live-build, żeby ustawić pakiety.

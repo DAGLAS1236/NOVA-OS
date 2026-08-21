@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Hook uruchamiany w chroot podczas budowy obrazu live
+# Kopiuje zasoby brandingu dostarczone w /build/config/branding do systemu
+
+SRC="/build/config/branding"
+DST="/usr/share/nova-branding"
+
+mkdir -p "$DST"
+if [ -d "$SRC" ]; then
+  cp -r "$SRC/"* "$DST/"
+  # Jeżeli istnieje wallpaper, skopiuj do standardowego katalogu
+  if [ -f "$DST/wallpaper.jpg" ] || [ -f "$DST/splash.png" ]; then
+    mkdir -p /usr/share/backgrounds
+    cp -f "$DST/wallpaper.jpg" /usr/share/backgrounds/nova-wallpaper.jpg || true
+    cp -f "$DST/splash.png" /usr/share/backgrounds/nova-splash.png || true
+  fi
+fi
+
+# Skonfiguruj default dla /etc/skel
+mkdir -p /etc/skel/.config
+echo "[Background]
+image=/usr/share/backgrounds/nova-wallpaper.jpg" > /etc/skel/.config/nova-background.conf || true
