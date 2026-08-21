@@ -26,6 +26,9 @@ fi
 echo "Konfiguruję live-build (lb)..."
 cd "$LB_DIR"
 
+# Usuń poprzedni stan, aby stare pakiety nie mieszały się z nową bazą systemu.
+sudo lb clean --purge >/dev/null 2>&1 || true
+
 # Skopiuj konfiguracje projektu do katalogu live-build/config
 rm -rf config
 mkdir -p config
@@ -43,7 +46,7 @@ find config -type f -name "*.chroot" -exec chmod +x {} + || true
 lb config \
 	--debian-installer live \
 	--archive-areas "main restricted universe multiverse" \
-	--distribution focal \
+	--distribution jammy \
 	--binary-images iso-hybrid \
 	--apt-indices false \
 	--bootappend-live "boot=live components"
